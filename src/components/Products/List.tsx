@@ -11,14 +11,14 @@ import {
 	Td,
 	IconButton,
 } from '@chakra-ui/react';
-import { Product } from '../../pages/Products';
+import { Product } from '../../pages/ProductsByUser';
 
 interface ListProps {
 	products: Product[]
-
+	isReadOnly: boolean
 }
 
-const List: FC<ListProps> = ({ products }) => {
+const List: FC<ListProps> = ({ products, isReadOnly }) => {
 
 	return (
 		<TableContainer overflowY='scroll'>
