@@ -21,7 +21,7 @@ const initState: Product = {
 	sku: '',
 	name: '',
 	price: 0,
-	quantity: 0
+	amount: 0
 }
 const NewProduct = () => {
 	const toast = useToast();
@@ -97,9 +97,9 @@ const NewProduct = () => {
 					<FormLabel>Cantidad</FormLabel>
 					<Input
 						type='number'
-						id="quantity"
-						name="quantity"
-						value={formData.quantity}
+						id="amount"
+						name="amount"
+						value={formData.amount}
 						onChange={handleChange}
 					/>
 				</FormControl>

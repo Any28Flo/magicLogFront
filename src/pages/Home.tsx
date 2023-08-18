@@ -12,12 +12,14 @@ const Home: FC<HomeProps> = () => {
 				direction="row"
 				height="100vh" // Set the height of the grid to fill the viewport
 			>
-				<Box bg="blue.500" flex="1" >
+				<Box bg="gray.200" color='gray.500' flex="1" maxW='sm' borderWidth='1px' borderRadius='lg' >
 					{/* TODO : Add menu */}
 					<h2>Menu</h2>
 				</Box>
-				<Box bg="green.500" flex="4" >
-					<Outlet />
+				<Box flex="4" bg='gray.300' color='gray.800' borderWidth='1px' borderRadius='lg' padding='6'>
+					<Flex bg='gray.300' color='gray.800' justify='space-around' flexDirection='column'>
+						<Outlet />
+					</Flex>
 				</Box>
 			</Flex>
 

@@ -4,9 +4,9 @@ import { Product } from '../pages/ProductsByUser';
 
 
 type State = {
-	user: { email: string | null, role: Role | null } | null;
-	token: string | null;
-	products: Product[]
+	user?: { email: string | null, role: Role | null } | null;
+	token?: string | null;
+	products?: Product[]
 };
 
 const initialState: State = {
@@ -24,6 +24,7 @@ type Action =
 	| {
 		type: 'logout';
 	}
+
 
 
 function reducer(state: State, action: Action): State {
@@ -50,7 +51,7 @@ type Props = {
 };
 export function AppProvider({ children }: Props) {
 
-	const [{ user, token }, dispatch] = useReducer(reducer, initialState);
+	const [{ user, token, products }, dispatch] = useReducer(reducer, initialState);
 
 	return (
 		<AppContext.Provider value={{ user, token, dispatch }} >
