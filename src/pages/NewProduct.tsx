@@ -7,12 +7,12 @@ import {
 	FormHelperText,
 	useToast,
 	Button,
-	NumberInput
 } from '@chakra-ui/react';
 import { Form, useNavigate, useSubmit } from "react-router-dom";
 import { useAppContext } from '../context/appContext';
 import { useState } from 'react';
 import { Product } from './ProductsByUser';
+
 
 import { useMutation } from 'react-query';
 import { registerProduct } from '../services/useProduct';
@@ -21,7 +21,7 @@ const initState: Product = {
 	sku: '',
 	name: '',
 	price: 0,
-	quantity: 0
+	amount: 0
 }
 const NewProduct = () => {
 	const toast = useToast();
@@ -97,9 +97,9 @@ const NewProduct = () => {
 					<FormLabel>Cantidad</FormLabel>
 					<Input
 						type='number'
-						id="quantity"
-						name="quantity"
-						value={formData.quantity}
+						id="amount"
+						name="amount"
+						value={formData.amount}
 						onChange={handleChange}
 					/>
 				</FormControl>

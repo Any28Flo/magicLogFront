@@ -116,7 +116,7 @@ const Login = () => {
 
 
 	return (
-		<Flex align='center' bg='black' justify='center' minH='100vh'>
+		<Flex align='center' bg="gray-100" justify='center' minH='100vh'>
 			<Card>
 				<CardHeader>
 					<Heading size='md'>Magic Log</Heading>

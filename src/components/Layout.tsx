@@ -17,7 +17,7 @@ interface LayoutProps { }
 
 const Layout: FC<LayoutProps> = () => {
 	return (
-		<Box bg='black' color='white' minH='100vh'>
+		<Box bg="gray-100" color='white' minH='100vh'>
 			<Container
 				as={Flex}
 				flexDir='column'
