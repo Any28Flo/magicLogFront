@@ -26,7 +26,7 @@ type Action =
 function reducer(state: State, action: Action): State {
 	switch (action.type) {
 		case 'login':
-			return { ...state, user: { email: action?.payload?.user?.email, role: action.payload.user?.role }, token: action.payload.token };
+			return { ...state, user: { email: action?.payload?.user?.email ?? '', role: action.payload.user?.role ?? '' }, token: action.payload.token };
 		case 'logout':
 			return { ...state, user: initialState.user, token: initialState.token }
 

@@ -8,13 +8,31 @@ import PrivateRoute from "./components/PrivateRoute";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import Products from "./pages/Products";
+import Products from "./pages/ProductsByUser";
 import NewProduct from "./pages/NewProduct";
+import Search from "./pages/Search";
+import ProductsByUser from "./pages/ProductsByUser";
+import { useEffect, useState } from "react";
+import { useAppContext } from "./context/appContext";
 
 export function App() {
 	//TODO: get user role from auth
-	const userRole = 'vendedor'
 
+
+	const { user } = useAppContext();
+	const userRole = user?.role ?? 'comprador';
+	console.log(user)
+	const [messageByRole, setMessageByRole] = useState('');
+
+	useEffect(() => {
+		if (userRole === 'comprador') {
+			setMessageByRole('Busca productos')
+		}
+		if (userRole === "admin") {
+			setMessageByRole('Todos los productos')
+		}
+
+	}, [])
 	return (
 		<Routes>
 
@@ -28,18 +46,26 @@ export function App() {
 						</RequireAuth>
 					}
 				>
-					<Route path="/dashboard/productos"
-						element={
-							<PrivateRoute role={userRole} authorizedRoles={['vendedor']}>
-								<Products />
-							</PrivateRoute>
-						}
-					/>
-
 					<Route path="/dashboard/agregar"
 						element={
 							<PrivateRoute role={userRole} authorizedRoles={['vendedor']}>
 								<NewProduct />
+							</PrivateRoute>
+						}
+					/>
+					<Route path="/dashboard/productos"
+						element={
+							<PrivateRoute role={userRole} authorizedRoles={['vendedor']}>
+								<ProductsByUser />
+							</PrivateRoute>
+						}
+					/>
+
+
+					<Route path="/dashboard/busqueda"
+						element={
+							<PrivateRoute role={userRole} authorizedRoles={['admin', 'comprador']}>
+								<Search message={messageByRole} roleSearch={userRole} />
 							</PrivateRoute>
 						}
 					/>

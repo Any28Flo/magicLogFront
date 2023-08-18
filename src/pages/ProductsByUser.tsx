@@ -43,16 +43,15 @@ const productos = [
 		quantity: 2
 	}
 ]
-const Products: FC<ProductosProps> = () => {
+const ProductsByUser: FC<ProductosProps> = () => {
 	return (
 
 		<Flex justify='space-around' flexDirection='column' padding='6'>
 			<Heading size='lg'>Productos</Heading>
-			<List products={productos} />
+			<List products={productos} isReadOnly={false} />
 		</Flex>
-
 
 	);
 }
 
-export default Products;
+export default ProductsByUser;
