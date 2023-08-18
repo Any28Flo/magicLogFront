@@ -1,18 +1,15 @@
 import { createContext, useContext, useReducer, ReactNode } from 'react';
+import { User } from '../services/useAuth';
 
 
 type State = {
-	user?: {
-		email: string;
-		role: string;
-	} | null;
-	token?: String | null;
+	user: { email: string | null, role: string | null } | null;
+	token: string | null;
 };
 
 const initialState: State = {
-	token: JSON.parse(localStorage.getItem('token') || '[]'),
-	user: JSON.parse(localStorage.getItem('user') || '[]'),
-
+	user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '') : null,
+	token: localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token') || '') : null,
 };
 
 type Action =
