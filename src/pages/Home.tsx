@@ -13,8 +13,8 @@ const Home: FC<HomeProps> = () => {
 				height="100vh" // Set the height of the grid to fill the viewport
 			>
 				<Box bg="blue.500" flex="1" >
-					{/* First row */}
-					Row 1
+					{/* TODO : Add menu */}
+					<h2>Menu</h2>
 				</Box>
 				<Box bg="green.500" flex="4" >
 					<Outlet />

@@ -1,9 +1,9 @@
 import { createContext, useContext, useReducer, ReactNode } from 'react';
-import { User } from '../services/useAuth';
+import { Role } from '../components/PrivateRoute';
 
 
 type State = {
-	user: { email: string | null, role: string | null } | null;
+	user: { email: string | null, role: Role | null } | null;
 	token: string | null;
 };
 
