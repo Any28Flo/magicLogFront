@@ -19,19 +19,27 @@ import {
 } from '@chakra-ui/react';
 import { useAuthModal } from '../hooks/useAuthModal';
 
-interface AuthModalProps {
-
-}
-
-const AuthModal: React.FC<AuthModalProps> = () => {
 
 
-	const handleCustomAuth = (email: string, password: string) => {
-		// Your custom authentication logic
-		console.log('Custom authentication:', email, password);
+const AuthModal = () => {
+
+
+	const handleCustomLoginAuth = (email: string, password: string) => {
+
+		console.log('Custom login authentication:', email, password);
+		closeLoginModal()
 	};
 
-	const { LoginButton, RegisterButton, AuthModalComponent } = useAuthModal();
+	const handleCustomRegisterAuth = (email: string, password: string) => {
+
+		console.log('Custom register authentication:', email, password);
+		closeRegisterModal();
+	};
+
+	const { LoginButton, RegisterButton, AuthModalComponent, closeLoginModal, closeRegisterModal } = useAuthModal({
+		customLoginOnAuth: handleCustomLoginAuth,
+		customRegisterOnAuth: handleCustomRegisterAuth,
+	});
 
 	return (
 		<Flex align='center' bg='black' justify='center' minH='100vh'>

@@ -1,15 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AuthModal, { AuthModalProps } from '../components/modal/AuthModal';
 import { Button } from '@chakra-ui/react';
 
 interface RegisterButton {
 	children: React.JXS;
 }
+interface UseAuthModalOptions {
+	customLoginOnAuth?: (email: string, password: string) => void;
+	customRegisterOnAuth?: (email: string, password: string) => void;
+}
 
 
-export const useAuthModal = () => {
-	const [isLoginModalOpen, setIsLoginModalOpen] = React.useState(false);
-	const [isRegisterModalOpen, setIsRegisterModalOpen] = React.useState(false);
+export const useAuthModal = (options?: UseAuthModalOptions) => {
+	const {
+		customLoginOnAuth = (email: string, password: string) => {
+			// Default login logic
+			console.log('Default login:', email, password);
+		},
+		customRegisterOnAuth = (email: string, password: string) => {
+			// Default register logic
+			console.log('Default register:', email, password);
+		},
+	} = options || {};
+
+	const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+	const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
 	const openLoginModal = () => {
 		setIsLoginModalOpen(true);
@@ -44,21 +59,13 @@ export const useAuthModal = () => {
 			<AuthModal
 				isOpen={isLoginModalOpen}
 				onClose={closeLoginModal}
-				onAuth={(email, password) => {
-					// Implement your login logic here
-					console.log('Logging in with:', email, password);
-					closeLoginModal();
-				}}
+				onAuth={customLoginOnAuth}
 				isLoginMode
 			/>
 			<AuthModal
 				isOpen={isRegisterModalOpen}
 				onClose={closeRegisterModal}
-				onAuth={(email, password) => {
-					// Implement your register logic here
-					console.log('Registering with:', email, password);
-					closeRegisterModal();
-				}}
+				onAuth={customRegisterOnAuth}
 				isLoginMode={false}
 			/>
 		</>
@@ -68,5 +75,7 @@ export const useAuthModal = () => {
 		LoginButton,
 		RegisterButton,
 		AuthModalComponent,
+		closeLoginModal,
+		closeRegisterModal
 	};
 };
