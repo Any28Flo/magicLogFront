@@ -17,22 +17,33 @@ import {
 	ModalOverlay,
 	Stack,
 } from '@chakra-ui/react';
+import { useQuery, useMutation } from 'react-query';
+
 import { useAuthModal } from '../hooks/useAuthModal';
+import { register } from '../services/useAuth';
 
 
 
 const AuthModal = () => {
 
+	const createUserMutation = useMutation(register);
+	const handleCreateUser = async (email: string, password: string) => {
+		const newUser = {
+			email,
+			password,
+			role: 'vendedor'
+		};
 
-	const handleCustomLoginAuth = (email: string, password: string) => {
+		await createUserMutation.mutateAsync(newUser);
+	};
 
-		console.log('Custom login authentication:', email, password);
+	const handleCustomLoginAuth = async (email: string, password: string) => {
 		closeLoginModal()
 	};
 
-	const handleCustomRegisterAuth = (email: string, password: string) => {
+	const handleCustomRegisterAuth = async (email: string, password: string) => {
+		await handleCreateUser(email, password)
 
-		console.log('Custom register authentication:', email, password);
 		closeRegisterModal();
 	};
 
@@ -40,6 +51,7 @@ const AuthModal = () => {
 		customLoginOnAuth: handleCustomLoginAuth,
 		customRegisterOnAuth: handleCustomRegisterAuth,
 	});
+
 
 	return (
 		<Flex align='center' bg='black' justify='center' minH='100vh'>

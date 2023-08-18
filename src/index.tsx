@@ -1,12 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { ChakraProvider } from '@chakra-ui/react'
-import {
-	RouterProvider,
-} from "react-router-dom";
+
 import { BrowserRouter } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from 'react-query';
+
 import { App } from "./App";
 
+const queryClient = new QueryClient();
 
 
 
@@ -15,7 +16,11 @@ root.render(
 	<React.StrictMode>
 		<ChakraProvider>
 			<BrowserRouter>
-				<App />
+				<QueryClientProvider client={queryClient}>
+
+					<App />
+				</QueryClientProvider>
+
 			</BrowserRouter>
 		</ChakraProvider>
 	</React.StrictMode >
