@@ -8,7 +8,7 @@ type Role = 'admin' | 'vendedor' | 'comprador';
 
 interface PrivateRouteProps {
 	// Add any additional props you need
-	children?: React.ReactNode; // best, accepts everything React can render
+	children: JSX.Element; // A single React element
 	role: Role;
 	authorizedRoles: Role[];
 }
