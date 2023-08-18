@@ -14,12 +14,10 @@ interface UseAuthModalOptions {
 export const useAuthModal = (options?: UseAuthModalOptions) => {
 	const {
 		customLoginOnAuth = (email: string, password: string) => {
-			// Default login logic
-			console.log('Default login:', email, password);
+			console.log("customloginonauth")
 		},
 		customRegisterOnAuth = (email: string, password: string) => {
-			// Default register logic
-			console.log('Default register:', email, password);
+			console.log("customregisteronauth")
 		},
 	} = options || {};
 

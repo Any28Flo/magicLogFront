@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
 	Button,
 	FormControl,
@@ -18,19 +18,51 @@ export interface AuthModalProps {
 	onAuth: (email: string, password: string) => void;
 	isLoginMode: boolean;
 }
-interface UseAuthModalOptions {
-	customAuthModalProps?: AuthModalProps;
-	customOnAuth?: (email: string, password: string) => void;
+
+interface LoginForm {
+	email: string;
+	password: string;
 }
 
+const initialFormState: LoginForm = {
+	email: '',
+	password: '',
+};
 const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuth, isLoginMode }) => {
-	const [email, setEmail] = React.useState('');
-	const [password, setPassword] = React.useState('');
+	const [formValues, setFormValues] = useState<LoginForm>(initialFormState);
+	const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
 	const handleAuth = () => {
-		onAuth(email, password);
+		if (validateForm()) {
+			// Perform form submission
+			console.log('Form submitted with values:', formValues);
+			onAuth(formValues.email, formValues.password);
+		}
+
+	};
+	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target;
+		setFormValues((prevValues) => ({
+			...prevValues,
+			[name]: value,
+		}));
 	};
 
+
+	const validateForm = () => {
+		const newErrors: { [key: string]: string } = {};
+
+		if (!formValues.email) {
+			newErrors.email = 'Email is required';
+		}
+
+		if (!formValues.password) {
+			newErrors.password = 'Password is required';
+		}
+
+		setErrors(newErrors);
+		return Object.keys(newErrors).length === 0;
+	};
 	return (
 		<Modal isOpen={isOpen} onClose={onClose}>
 			<ModalOverlay />
@@ -41,18 +73,27 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuth, isLoginM
 						<FormLabel>Email</FormLabel>
 						<Input
 							type="email"
-							value={email}
-							onChange={(e) => setEmail(e.target.value)}
+							name="email"
+							value={formValues.email}
+							onChange={handleInputChange}
+							isInvalid={!!errors.email}
+
 						/>
+						{errors.email && <p>{errors.email}</p>}
 					</FormControl>
 					<FormControl mt={4}>
 						<FormLabel>Contraseña</FormLabel>
 						<Input
 							type="password"
-							value={password}
-							onChange={(e) => setPassword(e.target.value)}
+							name="password"
+							value={formValues.password}
+							onChange={handleInputChange}
+							isInvalid={!!errors.password}
+
 						/>
+						{errors.password && <p>{errors.password}</p>}
 					</FormControl>
+
 				</ModalBody>
 				<ModalFooter>
 					<Button colorScheme="blue" mr={3} onClick={handleAuth}>

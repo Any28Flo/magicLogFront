@@ -16,18 +16,90 @@ import {
 	ModalHeader,
 	ModalOverlay,
 	Stack,
+	Toast,
 } from '@chakra-ui/react';
-import { useQuery, useMutation } from 'react-query';
+import { useToast } from '@chakra-ui/react';
+
+import { useMutation } from 'react-query';
 
 import { useAuthModal } from '../hooks/useAuthModal';
-import { register } from '../services/useAuth';
+import { register, login } from '../services/useAuth';
+import { useAppContext } from '../context/appContext';
+import { useNavigate } from 'react-router-dom';
 
 
 
-const AuthModal = () => {
+const Login = () => {
+	const toast = useToast();
+	const navigate = useNavigate();
+	const { dispatch } = useAppContext();
 
-	const createUserMutation = useMutation(register);
-	const handleCreateUser = async (email: string, password: string) => {
+	const createUserMutation = useMutation(register, {
+		onMutate: (variables) => {
+
+			console.log('Mutation starting...', variables);
+
+		},
+		onSuccess: (data) => {
+			closeRegisterModal();
+			toast({
+				title: data.msg,
+				status: 'success',
+				duration: 4000,
+				isClosable: true,
+			});
+
+		},
+		onError: (error) => {
+			closeRegisterModal();
+			toast({
+				title: error?.response?.data?.errors[0]?.msg,
+				status: 'error',
+				duration: 4000,
+				isClosable: true,
+			});
+		},
+	});
+	const loginUserMutation = useMutation(login, {
+		onMutate: (variables) => {
+			console.log('Mutation starting...', variables);
+		},
+		onSuccess: (data) => {
+			closeRegisterModal();
+
+			dispatch({
+				type: 'login',
+				payload: {
+					token: data.token,
+					user: {
+						email: data.user.email,
+						role: data.user.role,
+					}
+				}
+			})
+			localStorage.setItem('token', JSON.stringify(data.token));
+			localStorage.setItem('user', JSON.stringify(data.user));
+			navigate('/dashboard');
+		},
+		onError: (error) => {
+			closeRegisterModal();
+			toast({
+				title: error?.response?.data?.msg,
+				status: 'error',
+				duration: 4000,
+				isClosable: true,
+			});
+		},
+	});
+
+
+	const handleCustomLoginAuth = async (email: string, password: string) => {
+
+		closeLoginModal()
+		await loginUserMutation.mutateAsync({ email, password });
+	};
+
+	const handleCustomRegisterAuth = async (email: string, password: string) => {
 		const newUser = {
 			email,
 			password,
@@ -35,16 +107,6 @@ const AuthModal = () => {
 		};
 
 		await createUserMutation.mutateAsync(newUser);
-	};
-
-	const handleCustomLoginAuth = async (email: string, password: string) => {
-		closeLoginModal()
-	};
-
-	const handleCustomRegisterAuth = async (email: string, password: string) => {
-		await handleCreateUser(email, password)
-
-		closeRegisterModal();
 	};
 
 	const { LoginButton, RegisterButton, AuthModalComponent, closeLoginModal, closeRegisterModal } = useAuthModal({
@@ -71,4 +133,4 @@ const AuthModal = () => {
 	);
 };
 
-export default AuthModal;
+export default Login;

@@ -6,6 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import { App } from "./App";
+import { AppProvider } from "./context/appContext";
 
 const queryClient = new QueryClient();
 
@@ -17,10 +18,10 @@ root.render(
 		<ChakraProvider>
 			<BrowserRouter>
 				<QueryClientProvider client={queryClient}>
-
-					<App />
+					<AppProvider>
+						<App />
+					</AppProvider>
 				</QueryClientProvider>
-
 			</BrowserRouter>
 		</ChakraProvider>
 	</React.StrictMode >
