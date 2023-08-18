@@ -1,9 +1,9 @@
 import { createContext, useContext, useReducer, ReactNode } from 'react';
-import { User } from '../services/useAuth';
+import { Role } from '../components/PrivateRoute';
 
 
 type State = {
-	user: { email: string | null, role: string | null } | null;
+	user: { email: string | null, role: Role | null } | null;
 	token: string | null;
 };
 
@@ -26,7 +26,7 @@ type Action =
 function reducer(state: State, action: Action): State {
 	switch (action.type) {
 		case 'login':
-			return { ...state, user: { email: action?.payload?.user?.email, role: action.payload.user?.role }, token: action.payload.token };
+			return { ...state, user: { email: action?.payload?.user?.email ?? '', role: action.payload.user?.role ?? '' }, token: action.payload.token };
 		case 'logout':
 			return { ...state, user: initialState.user, token: initialState.token }
 

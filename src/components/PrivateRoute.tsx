@@ -4,11 +4,11 @@ import { Route, RouteProps } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 
-type Role = 'admin' | 'vendedor' | 'comprador';
+export type Role = 'admin' | 'vendedor' | 'comprador';
 
 interface PrivateRouteProps {
 	// Add any additional props you need
-	children?: React.ReactNode; // best, accepts everything React can render
+	children: JSX.Element; // A single React element
 	role: Role;
 	authorizedRoles: Role[];
 }
