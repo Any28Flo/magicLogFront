@@ -1,11 +1,6 @@
 import {
 	Routes,
 	Route,
-	Link,
-	useNavigate,
-	useLocation,
-	Navigate,
-	Outlet,
 } from "react-router-dom";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
@@ -27,7 +22,9 @@ export function App() {
 							<Home />
 						</RequireAuth>
 					}
-				/>
+				>
+					<Route path="/dashboard/productos" element={<h1>hols</h1>} />
+				</Route>
 			</Route>
 
 
