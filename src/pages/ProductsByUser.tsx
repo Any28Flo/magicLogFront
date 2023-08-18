@@ -10,8 +10,10 @@ import {
 	Td,
 	IconButton,
 } from '@chakra-ui/react';
-import type { FC } from 'react';
+import { useEffect, type FC } from 'react';
 import List from '../components/Products/List';
+import { useAppContext } from '../context/appContext';
+import { useQuery } from 'react-query';
 
 export interface Product {
 	sku: string;
@@ -43,9 +45,24 @@ const productos = [
 		quantity: 2
 	}
 ]
-const ProductsByUser: FC<ProductosProps> = () => {
-	return (
+const ProductsByUser = () => {
+	const { token, products } = useAppContext();
+	const { isLoading, error, data } = useQuery('repoData', () =>
+		fetch('https://api.github.com/repos/tannerlinsley/react-query').then(res =>
+			res.json()
+		)
+	)
+	console.log(products)
 
+	if (isLoading) return 'Loading...'
+
+	if (error) return 'An error has occurred: ' + error.message
+
+	if (!products) {
+
+	}
+
+	return (
 		<Flex justify='space-around' flexDirection='column' padding='6'>
 			<Heading size='lg'>Productos</Heading>
 			<List products={productos} isReadOnly={false} />

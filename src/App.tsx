@@ -16,12 +16,9 @@ import { useEffect, useState } from "react";
 import { useAppContext } from "./context/appContext";
 
 export function App() {
-	//TODO: get user role from auth
-
-
 	const { user } = useAppContext();
 	const userRole = user?.role ?? 'comprador';
-	console.log(user)
+
 	const [messageByRole, setMessageByRole] = useState('');
 
 	useEffect(() => {

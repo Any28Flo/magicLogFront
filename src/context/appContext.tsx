@@ -1,15 +1,18 @@
 import { createContext, useContext, useReducer, ReactNode } from 'react';
 import { Role } from '../components/PrivateRoute';
+import { Product } from '../pages/ProductsByUser';
 
 
 type State = {
 	user: { email: string | null, role: Role | null } | null;
 	token: string | null;
+	products: Product[]
 };
 
 const initialState: State = {
 	user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '') : null,
 	token: localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token') || '') : null,
+	products: localStorage.getItem('products') ? JSON.parse(localStorage.getItem('products') || '') : null,
 };
 
 type Action =

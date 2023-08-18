@@ -4,9 +4,9 @@ import {
 	FormControl,
 	FormLabel,
 	Input,
-	FormHelperText
+	FormHelperText,
+	Button
 } from '@chakra-ui/react';
-import { Form, useSubmit } from "react-router-dom";
 
 
 const NewProduct = () => {
@@ -30,8 +30,10 @@ const NewProduct = () => {
 				<FormLabel>Precio</FormLabel>
 				<Input type='number' />
 			</FormControl>
-			<button type="submit">Create</button>
-		</Flex>
+			<Button variant='outline' colorScheme='teal' type="submit">
+				Agregar
+			</Button>
+		</Flex >
 
 	);
 }
