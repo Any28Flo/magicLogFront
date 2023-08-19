@@ -10,8 +10,8 @@ import List from '../components/Products/List';
 import { useQuery } from 'react-query';
 import { getProductsFilter } from '../services/useProduct';
 import { useAppContext } from '../context/appContext';
-import { useEffect, useState } from 'react';
-import { filter } from 'lodash';
+import { useState } from 'react';
+
 
 interface SearchProps {
 	message: string;
@@ -31,7 +31,8 @@ const Search = ({ message, roleSearch }: SearchProps): JSX.Element => {
 
 	const [productsList, setProducts] = useState([])
 
-	const { data, isLoading, isError, refetch } = useQuery(
+
+	const { data: dataAdmin, isLoading: isLoadingDataAdmin, isError: isErrorLoadingDataAdmin, refetch } = useQuery(
 		['products', filter, token],
 		async () => getProductsFilter(filter, token), {
 		onSuccess: (newData) => {
@@ -39,6 +40,8 @@ const Search = ({ message, roleSearch }: SearchProps): JSX.Element => {
 		},
 	}
 	);
+
+
 	const updateChildState = (newState) => {
 		setProducts(newState);
 	};
@@ -48,26 +51,15 @@ const Search = ({ message, roleSearch }: SearchProps): JSX.Element => {
 		setFilter(dataFilter)
 	}
 
-	if (isLoading) {
-		return <div>Loading...</div>;
-	}
 
-	if (isError) {
-		return <div>Error occurred while fetching products</div>;
-	}
 	return (
 		<Flex justify='space-around' flexDirection='column' padding='6'>
 			<Heading size='lg'>{message}</Heading>
-			{
-				roleSearch === 'admin' ?
-					<FilterBySeller />
-					:
-					<FilterByProductProps handleSubmit={handleSubmit} />
 
-			}
+			<FilterByProductProps handleSubmit={handleSubmit} />
 			<List products={productsList} updateChildState={updateChildState} isReadOnly={false} />
-		</Flex>
 
+		</Flex >
 	);
 }
 

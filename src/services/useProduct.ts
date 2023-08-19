@@ -28,10 +28,11 @@ interface Filters {
 	min: string,
 	max: string
 }
-
+interface FiltersAdmin {
+	userId: string,
+}
 export const getProductsFilter = async (filters: Filters, token?: string | null,) => {
 	const { sku, name, min, max } = filters;
-	console.log(filters);
 
 	let query = '';
 
@@ -48,7 +49,7 @@ export const getProductsFilter = async (filters: Filters, token?: string | null,
 	if (max) {
 		query += `max=${max}&`;
 	}
-	console.log(query);
+
 
 	const response = await api.get(`/products/lista-custom-products?${query}&sort=desc`, {
 		headers: {
@@ -57,3 +58,19 @@ export const getProductsFilter = async (filters: Filters, token?: string | null,
 	});
 	return response.data.products;
 };
+export const getProductsAdmin = async (filter: string, token?: string | null,) => {
+
+	let query = '';
+
+	if (filter !== '') {
+		query += `?userId=${filter}`
+	}
+	const response = await api.get(`/products/lista-productos-admin${query}`, {
+		headers: {
+			'magic-log-token': token ?? ''
+		}
+	});
+
+	return response.data.products;
+};
+
