@@ -1,21 +1,19 @@
-import {
-	Routes,
-	Route,
-} from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import RequireAuth from "./components/RequireAuth";
 import PrivateRoute from "./components/PrivateRoute";
 
+
+
+import { useEffect, useState, lazy, Suspense } from "react";
+import { useAppContext } from "./context/appContext";
+
+import ProductsByUser from "./pages/ProductsByUser";
+import AdminBoard from "./pages/AdminBoard";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import Products from "./pages/ProductsByUser";
 import NewProduct from "./pages/NewProduct";
 import Search from "./pages/Search";
-import ProductsByUser from "./pages/ProductsByUser";
-import { useEffect, useState } from "react";
-import { useAppContext } from "./context/appContext";
-import AdminBoard from "./pages/AdminBoard";
-
 export function App() {
 	const { user } = useAppContext();
 	const userRole = user?.role ?? 'comprador';
@@ -32,53 +30,55 @@ export function App() {
 
 	}, [])
 	return (
-		<Routes>
+		<Suspense fallback={<h1>Cargando...</h1>}>
+			<Routes>
 
-			<Route element={<Layout />}>
-				<Route path="/" element={<Login />} />
-				<Route
-					path="/dashboard"
-					element={
-						<RequireAuth>
-							<Home />
-						</RequireAuth>
-					}
-				>
-					<Route path="/dashboard/agregar"
+				<Route element={<Layout />}>
+					<Route path="/" element={<Login />} />
+					<Route
+						path="/dashboard"
 						element={
-							<PrivateRoute role={userRole} authorizedRoles={['vendedor']}>
-								<NewProduct />
-							</PrivateRoute>
+							<RequireAuth>
+								<Home />
+							</RequireAuth>
 						}
-					/>
-					<Route path="/dashboard/productos"
-						element={
-							<PrivateRoute role={userRole} authorizedRoles={['vendedor']}>
-								<ProductsByUser />
-							</PrivateRoute>
-						}
-					/>
+					>
+						<Route path="/dashboard/agregar"
+							element={
+								<PrivateRoute role={userRole} authorizedRoles={['vendedor']}>
+									<NewProduct />
+								</PrivateRoute>
+							}
+						/>
+						<Route path="/dashboard/productos"
+							element={
+								<PrivateRoute role={userRole} authorizedRoles={['vendedor']}>
+									<ProductsByUser />
+								</PrivateRoute>
+							}
+						/>
 
 
-					<Route path="/dashboard/busqueda"
-						element={
-							<PrivateRoute role={userRole} authorizedRoles={['comprador']}>
-								<Search message={messageByRole} roleSearch={userRole} />
-							</PrivateRoute>
-						}
-					/>
-					<Route path="/dashboard/productos-admin"
-						element={
-							<PrivateRoute role={userRole} authorizedRoles={['admin']}>
-								<AdminBoard />
-							</PrivateRoute>
-						}
-					/>
+						<Route path="/dashboard/busqueda"
+							element={
+								<PrivateRoute role={userRole} authorizedRoles={['comprador']}>
+									<Search message={messageByRole} roleSearch={userRole} />
+								</PrivateRoute>
+							}
+						/>
+						<Route path="/dashboard/productos-admin"
+							element={
+								<PrivateRoute role={userRole} authorizedRoles={['admin']}>
+									<AdminBoard />
+								</PrivateRoute>
+							}
+						/>
+					</Route>
 				</Route>
-			</Route>
 
 
 
-		</Routes >
+			</Routes >
+		</Suspense>
 	);
 }

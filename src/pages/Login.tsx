@@ -35,11 +35,6 @@ const Login = () => {
 	const { dispatch } = useAppContext();
 
 	const createUserMutation = useMutation(register, {
-		onMutate: (variables) => {
-
-			console.log('Mutation starting...', variables);
-
-		},
 		onSuccess: (data) => {
 			closeRegisterModal();
 			toast({
@@ -61,9 +56,6 @@ const Login = () => {
 		},
 	});
 	const loginUserMutation = useMutation(login, {
-		onMutate: (variables) => {
-			console.log('Mutation starting...', variables);
-		},
 		onSuccess: (data) => {
 			closeRegisterModal();
 
