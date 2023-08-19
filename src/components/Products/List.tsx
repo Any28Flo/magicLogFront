@@ -16,13 +16,14 @@ import { Product } from '../../pages/ProductsByUser';
 interface ListProps {
 	products: Product[]
 	isReadOnly: boolean
+	updateChildState: () => void
 }
 
-const List: FC<ListProps> = ({ products, isReadOnly }) => {
+const List: FC<ListProps> = ({ products = [], isReadOnly, updateChildState }) => {
 
 	return (
 		<>
-			{(products.length === 0) ? <h1>Aun no tienes productos</h1> :
+			{(products?.length === 0) ? <h1>Aun no tienes productos</h1> :
 				<TableContainer overflowY='scroll'>
 					<Table variant='simple'>
 						<Thead>
