@@ -5,7 +5,7 @@ import {
 
 } from '@chakra-ui/react';
 import FilterBySeller from '../components/Products/FilterBySeller';
-import FilterByProductProps from '../components/FilterByProductProps';
+import FilterByProductProps from '../components/Products/FilterByProductProps';
 import List from '../components/Products/List';
 import { useQuery } from 'react-query';
 import { getProductsFilter } from '../services/useProduct';

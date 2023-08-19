@@ -34,8 +34,6 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuth, isLoginM
 
 	const handleAuth = () => {
 		if (validateForm()) {
-			// Perform form submission
-			console.log('Form submitted with values:', formValues);
 			onAuth(formValues.email, formValues.password);
 		}
 

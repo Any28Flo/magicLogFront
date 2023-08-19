@@ -15,10 +15,10 @@ import {
 	NumberIncrementStepper,
 	NumberDecrementStepper,
 } from '@chakra-ui/react';
-import { parse, format } from '../utils';
-import { getProductsFilter } from '../services/useProduct';
-import { useAppContext } from '../context/appContext';
-import { Product } from '../pages/ProductsByUser';
+import { parse, format } from '../../utils';
+import { getProductsFilter } from '../../services/useProduct';
+import { useAppContext } from '../../context/appContext';
+import { Product } from '../../pages/ProductsByUser';
 import { useQuery } from 'react-query';
 
 interface FilterByProductProps {
