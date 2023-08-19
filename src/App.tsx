@@ -14,6 +14,7 @@ import Search from "./pages/Search";
 import ProductsByUser from "./pages/ProductsByUser";
 import { useEffect, useState } from "react";
 import { useAppContext } from "./context/appContext";
+import AdminBoard from "./pages/AdminBoard";
 
 export function App() {
 	const { user } = useAppContext();
@@ -61,8 +62,15 @@ export function App() {
 
 					<Route path="/dashboard/busqueda"
 						element={
-							<PrivateRoute role={userRole} authorizedRoles={['admin', 'comprador']}>
+							<PrivateRoute role={userRole} authorizedRoles={['comprador']}>
 								<Search message={messageByRole} roleSearch={userRole} />
+							</PrivateRoute>
+						}
+					/>
+					<Route path="/dashboard/productos-admin"
+						element={
+							<PrivateRoute role={userRole} authorizedRoles={['admin']}>
+								<AdminBoard />
 							</PrivateRoute>
 						}
 					/>

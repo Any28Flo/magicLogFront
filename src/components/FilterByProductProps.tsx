@@ -1,8 +1,10 @@
-import type { FC } from 'react';
+import { useState } from 'react';
 
 import {
 	Flex,
 	Heading,
+	Button,
+	SimpleGrid,
 	FormControl,
 	FormLabel,
 	Input,
@@ -11,47 +13,109 @@ import {
 	NumberInputField,
 	NumberInputStepper,
 	NumberIncrementStepper,
-	NumberDecrementStepper
+	NumberDecrementStepper,
 } from '@chakra-ui/react';
-interface FilterByProductPropsProps { }
+import { parse, format } from '../utils';
+import { getProductsFilter } from '../services/useProduct';
+import { useAppContext } from '../context/appContext';
+import { Product } from '../pages/ProductsByUser';
+import { useQuery } from 'react-query';
 
-const FilterByProductProps = (): JSX.Element => {
+interface FilterByProductProps {
+	handleSubmit: (filter: any) => void
+}
+
+const initState = {
+	sku: '',
+	name: '',
+}
+
+const FilterByProductProps = ({ handleSubmit }: FilterByProductProps): JSX.Element => {
+
+	const [min, setMin] = useState('0')
+	const [max, setMax] = useState('2000')
+
+	const [filterData, setFilterData] = useState(initState);
+
+
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target;
+		if (name === 'min') setFilterData(prevData => ({ ...prevData, [name]: parse(value) }));
+
+		setFilterData(prevData => ({ ...prevData, [name]: value }));
+	};
+
+
+
+	const onSubmit = async (e: React.FormEvent) => {
+		e.preventDefault();
+		handleSubmit({ min, max, ...filterData })
+		setFilterData(initState)
+	};
+
+
 	return (
-		<>
-			<FormControl>
-				<FormLabel>Nombre</FormLabel>
-				<Input type='text' />
-			</FormControl>
-			<FormControl>
-				<FormLabel>SKU</FormLabel>
-				<Select placeholder='Select option'>
-					<option value='option1'>Option 1</option>
-					<option value='option2'>Option 2</option>
-					<option value='option3'>Option 3</option>
-				</Select>
-			</FormControl>
-			<FormControl>
-				<FormLabel>Min</FormLabel>
-				<NumberInput>
-					<NumberInputField />
-					<NumberInputStepper>
-						<NumberIncrementStepper />
-						<NumberDecrementStepper />
-					</NumberInputStepper>
-				</NumberInput>
-			</FormControl>
-			<FormControl>
-				<FormLabel>Max</FormLabel>
-				<NumberInput>
-					<NumberInputField />
-					<NumberInputStepper>
-						<NumberIncrementStepper />
-						<NumberDecrementStepper />
-					</NumberInputStepper>
-				</NumberInput>
-			</FormControl>
-			<button type="submit">Buscar</button>
-		</>
+		<SimpleGrid columns={2} spacing={10}>
+			<form onSubmit={onSubmit}>
+				<FormControl>
+					<FormLabel>Nombre</FormLabel>
+					<Input
+						id="name"
+						type='text'
+						name="name"
+						value={filterData.name}
+						onChange={handleChange}
+					/>
+				</FormControl>
+				<FormControl>
+					<FormLabel>SKU</FormLabel>
+					<Input
+						id="sku"
+						type='text'
+						name="sku"
+						value={filterData.sku}
+						onChange={handleChange} />
+				</FormControl>
+				<FormControl>
+					<FormLabel>Min</FormLabel>
+					<NumberInput
+						id="min"
+
+						min={0}
+						name="min"
+						onChange={(minString) => setMin(parse(minString))}
+						max={1000}
+						value={format(min)}
+					>
+						<NumberInputField />
+						<NumberInputStepper>
+							<NumberIncrementStepper />
+							<NumberDecrementStepper />
+						</NumberInputStepper>
+					</NumberInput>
+				</FormControl>
+				<FormControl>
+					<FormLabel>Max</FormLabel>
+					<NumberInput
+						id="max"
+
+						min={10}
+						name="max"
+						onChange={(maxString) => setMax(parse(maxString))}
+						max={3000}
+						value={format(max)}>
+						<NumberInputField />
+						<NumberInputStepper>
+							<NumberIncrementStepper />
+							<NumberDecrementStepper />
+						</NumberInputStepper>
+					</NumberInput>
+				</FormControl>
+				<Button type="submit" colorScheme="blue">
+					Buscar
+				</Button>
+			</form>
+		</SimpleGrid >
 	);
 }
 
